@@ -1,0 +1,12 @@
+jumps: 86400
+start_date: "2017-01-01"
+end_date: "2019-04-28"
+root: "./data"
+date_format: "%Y-%m-%d"
+data_path: "./data/train_bitcoin_sample.csv"
+
+train_interval: ["2017-01-01", "2019-02-27"]
+val_interval: ["2019-02-28", "2019-03-29"]
+test_interval: ["2019-03-30", "2019-04-28"]
+
+additional_features: []

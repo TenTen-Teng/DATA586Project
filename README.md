@@ -15,8 +15,10 @@
         - [Experiment 2](#experiment-2)
         - [Experiment 3](#experiment-3)
       - [Strategy 2](#strategy-2)
+        - [Experiment 4](#experiment-4)
         - [Experiment 5](#experiment-5)
         - [Experiment 6](#experiment-6)
+        - [Experiment 7](#experiment-7)
     - [Compare with Naive Method](#compare-with-naive-method)
   - [Conclusion](#conclusion)
 
@@ -51,7 +53,7 @@ There are 5 features:
 We found a older dataset from [Kaggle](https://www.kaggle.com/datasets/sudalairajkumar/cryptocurrencypricehistory/data) from `2013-04-29` to `2019-04-28`. 
 
 ## Model Architecture
-#TODO ...
+<mark>@Luna Please~ Add something here.</mark>
 
 ## Training Environment
 Google Colab with T4 GPU.
@@ -85,11 +87,17 @@ At initial training, we follow the same structure as they proposed in the papar.
 3. window_size: 14
 4. batch_size: 32
 
-![Experiment 1 - Train vs. Val vs. Test vs. Target](./media/exp1.jpg)
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 569.397 | 23.862 | 0.03672 | 15.609 |
+| Val | 35378124.0 | 5947.951 | 0.5126 | 4464.943 |
+| Test | 9052551.0 | 3008.746 | 0.47199 | 2753.768 |
+
+![Experiment 1 - Train vs. Val vs. Test vs. Target](./media/pred_exp1.jpg)
 
 ##### Experiment 2
 
-As the first training didn't converage, we adjust `batch_size` to 512. 
+As the first training didn't capture the validation and test trend, we adjust `batch_size` to 512. 
 
 **Hyperparameter setting**
 
@@ -97,6 +105,14 @@ As the first training didn't converage, we adjust `batch_size` to 512.
 2. normalization: False
 3. window_size: 14
 4. batch_size: **512**
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 67435.078 | 259.683 | 0.40233 | 182.897 |
+| Val | 62429332.0 | 7901.223 | 0.90999 | 6645.025 |
+| Test | 28370898.0 | 5326.434 | 0.91381 | 5107.485 |
+
+![Experiment 2 - Train vs. Val vs. Test vs. Target](./media/pred_exp2.jpg)
 
 ##### Experiment 3
 
@@ -107,7 +123,14 @@ To furthure improve the preformance, we turned on `normalization`.
 3. window_size: 14
 4. batch_size: **512**
 
-![Experiment 3 - Train vs. Val vs. Test vs. Target](./media/exp3.jpg)
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 8373.418 | 91.506 | 0.24683 | 86.914 |
+| Val | 58893792.0 | 7674.229 | 0.68339 | 5872.741 |
+| Test | 18711456.0 | 4325.674 | 0.68217 | 3974.228 |
+
+
+![Experiment 3 - Train vs. Val vs. Test vs. Target](./media/pred_exp3.jpg)
 
 #### Strategy 2
 
@@ -115,18 +138,46 @@ Based on the results from Stage 1, we observed that while the model performed we
 
 Therefore, in Stage 2, we restructured our dataset. We discarded the early-stage cryptocurrency data when the market was less active and trading volume was low. Instead, we focused on a more stable and relevant period, keeping data from 2017-04-28 to 2019-04-28. Additionally, rather than using a full year for both validation and test sets, we used only one month for each. The revised dataset is structured as follows:
 
-- Train: 2017-04-28 to 2019-02-28
-- Validation: 2019-03-01 to 2019-03-28
-- Test: 2019-03-29 to 2019-04-29
+- Train: 2017-01-01 to 2019-02-27
+- Validation: 2019-02-27 to 2019-03-29
+- Test: 2019-03-30 to 2019-04-28
+
+##### Experiment 4
+
+**Hyperparameter setting**
+
+1. learning_rate: 0.01
+2. normalization: False
+3. window_size: 14
+4. batch_size: 32
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 153883.188 | 392.279 | 0.0718 | 267.605 |
+| Val | 2878.967 | 53.656 | 0.0104 | 41.216 |
+| Test | 48490.383 | 220.205 | 0.03085 | 156.943 |
+
+
+![Experiment 4 - Train vs. Val vs. Test vs. Target](./media/pred_exp4.jpg)
 
 ##### Experiment 5
 
 **Hyperparameter setting**
 
 1. learning_rate: 0.01
-2. normalization: True
+2. normalization: False
 3. window_size: 14
-4. batch_size: 512
+4. batch_size: **512**
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 1158562.375 | 1076.365 | 0.28308 | 1013.567 |
+| Val | 810242.0 | 900.134 | 0.21933 | 865.471 |
+| Test | 8346505.5 | 2889.032 | 0.51283 | 2633.195 |
+
+
+![Experiment 5 - Train vs. Val vs. Test vs. Target](./media/pred_exp5.jpg)
+
 
 ##### Experiment 6
 
@@ -134,12 +185,47 @@ Therefore, in Stage 2, we restructured our dataset. We discarded the early-stage
 
 1. learning_rate: 0.01
 2. normalization: True
-3. window_size: **7**
-4. batch_size: 512
+3. window_size: 14
+4. batch_size: **512**
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 141498.969 | 376.163 | 0.06874 | 286.286 |
+| Val | 26991.277 | 164.29 | 0.0298 | 116.513 |
+| Test | 60817.699 | 246.612 | 0.03895 | 192.802 |
+
+
+![Experiment 6 - Train vs. Val vs. Test vs. Target](./media/pred_exp6.jpg)
+
+##### Experiment 7
+
+**Hyperparameter setting**
+
+1. learning_rate: 0.01
+2. normalization: True
+3. window_size: 14
+4. batch_size: **32**
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Train | 132020.234 | 363.346 | 0.03762 | 217.453 |
+| Val | 11221.482 | 105.931 | 0.02195 | 86.696 |
+| Test | 45291.039 | 212.817 | 0.03114 | 158.782 |
+
+
+![Experiment 7 - Train vs. Val vs. Test vs. Target](./media/pred_exp7.jpg)
 
 ### Compare with Naive Method
-#TDOO
 
+The naive method uses the previous day’s closing price as today’s closing price. To evaluate the model performance, we later compared our based model with naive method results.
+
+| Dataset | MSE | RMSE | MAPE | MAE |
+| --- | --- | --- | --- | --- |
+| Best model | 48490.383 | 220.205 | 0.03085 | 156.943 |
+| Naive | 29699.06 | 172.334 | 2.05396 | 104.894 |
+
+
+![](./media/compare_naive.jpg)
 
 ## Conclusion
 #TODO
