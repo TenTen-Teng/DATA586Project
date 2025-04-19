@@ -60,6 +60,11 @@ Google Colab with T4 GPU.
 
 ## Experiments
 
+NB: To view our training results on TensorBoard
+```bash
+tensorboard --logdir ./logs/
+```
+
 ### 1. Reproduce Original Results
 
 We followed the instructions to use their pre-trained weights to run inference from the original repo. With original dataset, we are able to reproduce the results, please see running [script](reproduce_evaluation.ipynb).
@@ -228,4 +233,9 @@ The naive method uses the previous day’s closing price as today’s closing pr
 ![](./media/compare_naive.jpg)
 
 ## Conclusion
-#TODO
+
+In this project, we explored [CryptoMamba: Leveraging State Space Models for Accurate Bitcoin Price Prediction](https://github.com/MShahabSepehri/CryptoMamba/tree/main). We first reproduced the results using the original dataset, then applied the model to our own dataset.
+
+During experimentation, we tested different batch sizes, the impact of normalization, and various data splitting strategies. Our results showed that neither increasing the batch size nor enabling normalization significantly improved model convergence or performance. In contrast, training the model on a more recent and relevant time period (using just one month for validation and test) — rather than having a large temporal gap between training and test periods (as in the original paper, which used one year) — resulted in noticeably better performance.
+
+To further assess the model’s practicality, we compared our best-performing model against a naive method that simply used the previous day’s closing price as today’s prediction. Surprisingly, the model performed worse than this naive approach. This may be due to several factors. First, cryptocurrency price prediction likely requires more features for accurate forecasting. Our dataset includes only five features, which may limit the model’s ability to learn underlying patterns. Second, in practice, predicting the exact closing price is inherently challenging. An alternative evaluation approach — such as forecasting whether the closing price will increase or decrease by a certain threshold (e.g., 2%) — may be more actionable and still valuable for end users.
