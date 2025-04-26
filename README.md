@@ -25,9 +25,15 @@
 
 ## Introduction & Background
 
-<mark>@Luna Please~ Add something here.</mark>
+Predicting Bitcoin prices is extremely challenging due to the cryptocurrency market’s high volatility, non-stationarity, and 24/7 operation. Traditional time-series models like ARIMA and GARCH, as well as deep learning models such as LSTM and GRU, struggle to capture the complex long-range dependencies present in Bitcoin price movements.
 
-[GitHub](https://github.com/MShahabSepehri/CryptoMamba/tree/main)
+CryptoMamba, proposed by Sepehri et al. (2025), introduces a lightweight deep learning architecture based on State Space Models (SSMs) with Mamba blocks, efficiently modeling long-term temporal patterns with just 136k parameters. It demonstrated strong performance on Bitcoin data from 2018–2024, outperforming LSTM, Bi-LSTM, GRU, and S-Mamba models across RMSE, MAE, and MAPE metrics.
+
+In this project, we **first reproduced** the original CryptoMamba results using the same Yahoo Finance dataset (2018–2024) employed in the paper. We then **extended the evaluation** by applying CryptoMamba to an earlier Bitcoin dataset collected from Kaggle (2013–2019) to test the model’s generalization capability under noisier and less mature market conditions.
+
+ The original CryptoMamba implementation is available on
+ [GitHub](https://github.com/MShahabSepehri/CryptoMamba/tree/main)
+ 
 ```
 @article{Sepehri2025CryptoMamba,
       title={CryptoMamba: Leveraging State Space Models for Accurate Bitcoin Price Prediction}, 
@@ -53,7 +59,21 @@ There are 5 features:
 We found a older dataset from [Kaggle](https://www.kaggle.com/datasets/sudalairajkumar/cryptocurrencypricehistory/data) from `2013-04-29` to `2019-04-28`. 
 
 ## Model Architecture
-<mark>@Luna Please~ Add something here.</mark>
+
+The CryptoMamba model consists of three major components: **Embedding**, **C-Blocks**, and **Prediction**.
+
+- **Embedding Layer**:  
+  Maps raw input features (Open, High, Low, Close, Volume, Timestamp) into a dense representation that the model can learn from.
+
+- **C-Blocks**:  
+  Each C-Block contains two **Mamba Blocks** (CMBlocks) followed by a **Multi-Layer Perceptron (MLP)**. The Mamba Blocks apply selective State Space Modeling (SSM) to efficiently capture long-range dependencies across time steps. Stacking multiple C-Blocks enables CryptoMamba to model deep temporal patterns while maintaining a lightweight architecture (~136k parameters).
+
+- **Prediction Layer**:  
+  Aggregates the learned representations and outputs the predicted next-day closing price.
+
+An image below illustrates the overall CryptoMamba model pipeline (adapted from Sepehri et al., 2025).
+
+![CryptoMamba Model Architecture Overview](./media/CryptoMambaModelArchitectureOverview.png)
 
 ## Training Environment
 Google Colab with T4 GPU.
